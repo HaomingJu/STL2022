@@ -1,6 +1,8 @@
 
-- [ ] 对output_iterator_tag的理解
-- [ ] 完成stl_iterator_base.h
+- [ ] 对`output_iterator_tag`的理解
+- [x] 完成`stl_iterator_base.h`
+- [ ] `__malloc_alloc_template`中对out-of-memory-handling的处理
+- [ ] 研究__STL_USE_STD_ALLOCATORS被定义时的类继承关系
 
 
 
@@ -38,4 +40,16 @@ template <typename _Iter> typename iterator_traits<_Iter>::difference_type \
 
 template <typename _Iter> void advance(_Iter iter_);
 
+```
+
+### stl_alloc.h
+
+```
+# 两种配置器: simple_alloc和malloc_alloc
+
+typedef simple_alloc simple_alloc;
+
+typedef malloc_alloc_template<0> malloc_alloc;
+typedef malloc_alloc alloc;
+typedef malloc_alloc single_client_alloc;
 ```
