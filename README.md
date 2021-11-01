@@ -6,6 +6,8 @@
 
 
 
+
+
 ### stl_iterator_base.h
 
 ```
@@ -44,12 +46,18 @@ template <typename _Iter> void advance(_Iter iter_);
 
 ### stl_alloc.h
 
-```
-# 两种配置器: simple_alloc和malloc_alloc
+两种配置器: simple_alloc和malloc_alloc
 
+```
 typedef simple_alloc simple_alloc;
 
 typedef malloc_alloc_template<0> malloc_alloc;
 typedef malloc_alloc alloc;
 typedef malloc_alloc single_client_alloc;
 ```
+
+### `type_traits.h`
+
+包含两个萃取函数`__type_traits`和`__is_integer`
+
+对于内置类型, 则进行偏特化进行赋值. 其中表征真假的类型为`struct __true_type`和`struct __false_type`
