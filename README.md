@@ -5,6 +5,10 @@
 - [ ] 研究__STL_USE_STD_ALLOCATORS被定义时的类继承关系
 
 
+![STL](doc/STL.svg)
+
+
+
 两个比较重要的萃取: 迭代器萃取(iterator_traits) | 类型萃取(__type_traits)
 
 功能性头文件:
@@ -90,3 +94,5 @@ template <typename _T1> destroy(_T1*);
 template <typename _ForwardIterator> destroy(_ForwardIterator first_, _ForwardIterator last_);
 ```
 
+
+绘图工具: https://excalidraw.com/
