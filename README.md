@@ -7,6 +7,25 @@
 
 两个比较重要的萃取: 迭代器萃取(iterator_traits) | 类型萃取(__type_traits)
 
+功能性头文件:
+
+```
+stl_config.h
+stl_alloc.h
+stl_iterator_base.h
+stl_construct.h
+stl_uninitialized.h
+```
+
+容器性头文件
+
+```
+stl_pair.h
+stl_vector.h
+...
+
+```
+
 ### stl_iterator_base.h
 
 ```
