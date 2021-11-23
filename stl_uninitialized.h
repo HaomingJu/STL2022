@@ -1,3 +1,4 @@
+#include <cstddef>
 #include "stl_algobase.h"       // for func: copy
 #include "stl_config.h"         // for cfg
 #include "stl_construct.h"      // for func: construct, destroy
@@ -11,24 +12,27 @@ template <typename _InputIter, typename _ForwardIter>
 _ForwardIter __uninitialized_copy_aux(_InputIter first_, _InputIter last_, _ForwardIter result_, __false_type) {
     _ForwardIter indexIter = result_;
     for(; first_ != last_; ++first_, ++indexIter) {
-        construct(&*indexIter, *first_);
+        construct(&*indexIter, *first_);  // 仅放置对象, 不做内存申请
     }
+    return indexIter;
 }
 
 template <typename _InputIter, typename _ForwardIter>
-_ForwardIter __uninitialized_copy_aux(_InputIter first_, _InputIter last_, _ForwardIter result, __true_type) {
+_ForwardIter __uninitialized_copy_aux(_InputIter first_, _InputIter last_, _ForwardIter result_, __true_type) {
+    _ForwardIter indexIter = result_;
     // TODO: Use copy from stl_algobase
+    return indexIter;
 }
 
 template <typename _InputIter, typename _ForwardIter, typename EleType>
 _ForwardIter __uninitialized_copy(_InputIter first_, _InputIter last_, _ForwardIter result_, EleType) {
     typedef typename __type_traits<EleType>::is_POD_type isPOD;
-    uninitialized_copy_aux(first_, last_, result_, isPOD());
+    return uninitialized_copy_aux(first_, last_, result_, isPOD());
 }
 
 template <typename _InputIter, typename _ForwardIter>
 _ForwardIter uninitialized_copy(_InputIter first_, _InputIter last_, _ForwardIter result_) {
-    __uninitialized_copy(first_, last_, result_, __VALUE_TYPE(result_));
+    return __uninitialized_copy(first_, last_, result_, __VALUE_TYPE(result_));
 }
 
 /* ## 非初始化填充 uninitialized_fill */
@@ -53,6 +57,58 @@ void __uninitialized_fill(_ForwardIter first_, _ForwardIter last_, const _T& val
 template <typename _ForwardIter, typename _T>
 void uninitialized_fill(_ForwardIter first_, _ForwardIter last_, const _T& value_) {
     __uninitialized_fill(first_, last_, value_, __VALUE_TYPE(first_));
+}
+
+/* ## uninitialized_copy_n */
+template <typename _InputIter, typename _ForwardIter>
+void __uninitialized_copy_n(_InputIter first_, std::size_t count_, _ForwardIter last_, input_iterator_tag) {
+    _ForwardIter indexIter = last_;
+    try {
+        for(; count_ > 0; --count_, ++first_, ++indexIter) {
+            construct(&*indexIter, *first_);
+        }
+    } catch(...) {
+        destroy(last_, indexIter);
+    }
+}
+
+template <typename _RandomIter, typename _ForwardIter>
+void __uninitialized_copy_n(_RandomIter first_, std::size_t count_, _ForwardIter result_, random_iterator_tag) {
+    _RandomIter last_ = first_ + count_;
+    uninitialized_copy(first_, last_, result_);
+}
+
+template <typename _InputIter, typename _ForwardIter>
+void uninitialized_copy_n(_InputIter first_, std::size_t count_, _ForwardIter result_) {
+    typedef typename iterator_traits<_InputIter>::iterator_category iterCategory;
+    __uninitialized_copy_n(first_, count_, result_, iterCategory());
+}
+
+/* ## uninitialized_fill_n */
+
+template <typename _InputIter, typename _ForwardIter, typename _T>
+void __uninitialized_fill_n(_InputIter first_, std::size_t count_, const _T& value_, input_iterator_tag) {
+    _InputIter indexIter = first_;
+    try {
+        for(; count_ > 0; --count_, ++indexIter) {
+            construct(&*indexIter, value_);
+        }
+
+    } catch(...) {
+        destroy(first_, indexIter);
+    }
+}
+
+template <typename _RandomIter, typename _ForwardIter, typename _T>
+void __uninitialized_fill_n(_RandomIter first_, std::size_t count_, const _T& value_, random_iterator_tag) {
+    _RandomIter last_ = first_ + count_;
+    uninitialized_fill(first_, last_, value_);
+}
+
+template <typename _InputIter, typename _T>
+void uninitialized_fill_n(_InputIter first_, std::size_t count_, const _T& value_) {
+    typedef typename iterator_traits<_InputIter>::iterator_category iterCategory;
+    __uninitialized_fill_n(first_, count_, value_, iterCategory());
 }
 
 _STL2022_NAMESPACE_END
