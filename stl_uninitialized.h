@@ -7,7 +7,8 @@
 
 _STL2022_NAMESPACE_HEAD
 
-/* ## 非初始化拷贝 uninitialized_copy */
+/* ## uninitialized_copy */
+/* 有个地方需要说明一下, result_为首的内存块要调用者来提供, 该函数内不对内存进行申请操作 */
 template <typename _InputIter, typename _ForwardIter>
 _ForwardIter __uninitialized_copy_aux(_InputIter first_, _InputIter last_, _ForwardIter result_, __false_type) {
     _ForwardIter indexIter = result_;
@@ -35,7 +36,8 @@ _ForwardIter uninitialized_copy(_InputIter first_, _InputIter last_, _ForwardIte
     return __uninitialized_copy(first_, last_, result_, __VALUE_TYPE(result_));
 }
 
-/* ## 非初始化填充 uninitialized_fill */
+/* ## uninitialized_fill */
+/* 同样的, fill系列函数内部不做内存申请, 只做fill填充*/
 template <typename _ForwardIter, typename _T>
 void __uninitialized_fill_aux(_ForwardIter first_, _ForwardIter last_, const _T& value_, __false_type) {
     for(; first_ != last_; ++first_) {
@@ -60,6 +62,7 @@ void uninitialized_fill(_ForwardIter first_, _ForwardIter last_, const _T& value
 }
 
 /* ## uninitialized_copy_n */
+/* 其实就是uninitialized_copy的重载 */
 template <typename _InputIter, typename _ForwardIter>
 void __uninitialized_copy_n(_InputIter first_, std::size_t count_, _ForwardIter last_, input_iterator_tag) {
     _ForwardIter indexIter = last_;
@@ -80,11 +83,12 @@ void __uninitialized_copy_n(_RandomIter first_, std::size_t count_, _ForwardIter
 
 template <typename _InputIter, typename _ForwardIter>
 void uninitialized_copy_n(_InputIter first_, std::size_t count_, _ForwardIter result_) {
-    typedef typename iterator_traits<_InputIter>::iterator_category iterCategory;
-    __uninitialized_copy_n(first_, count_, result_, iterCategory());
+    //typedef typename iterator_traits<_InputIter>::iterator_category iterCategory;
+    __uninitialized_copy_n(first_, count_, result_, __ITERATOR_CATEGORY(first_));
 }
 
 /* ## uninitialized_fill_n */
+/* 其实就是uninitialized_fill的重载 */
 
 template <typename _InputIter, typename _ForwardIter, typename _T>
 void __uninitialized_fill_n(_InputIter first_, std::size_t count_, const _T& value_, input_iterator_tag) {
@@ -107,8 +111,8 @@ void __uninitialized_fill_n(_RandomIter first_, std::size_t count_, const _T& va
 
 template <typename _InputIter, typename _T>
 void uninitialized_fill_n(_InputIter first_, std::size_t count_, const _T& value_) {
-    typedef typename iterator_traits<_InputIter>::iterator_category iterCategory;
-    __uninitialized_fill_n(first_, count_, value_, iterCategory());
+    //typedef typename iterator_traits<_InputIter>::iterator_category iterCategory;
+    __uninitialized_fill_n(first_, count_, value_, __ITERATOR_CATEGORY(first_));
 }
 
 _STL2022_NAMESPACE_END

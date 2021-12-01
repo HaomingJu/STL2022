@@ -58,12 +58,12 @@ ITERATOR_TRAITS_CATEGORY __iterator_category(const _Iter&) {
 
 template <typename _Iter>
 ITERATOR_TRAITS_VALUE_TYPE __value_type(const _Iter&) {
-    return ITERATOR_TRAITS_VALUE_TYPE(0);
+    return ITERATOR_TRAITS_VALUE_TYPE();
 };
 
 template <typename _Iter>
 ITERATOR_TRAITS_DIFFERENCE_TYPE __distance_type(const _Iter&) {
-    return ITERATOR_TRAITS_DIFFERENCE_TYPE(0);
+    return ITERATOR_TRAITS_DIFFERENCE_TYPE();
 }
 
 /* ## 可以将_i的类型属性萃取出来, 并创建一个实例 */
@@ -92,8 +92,7 @@ ITERATOR_TRAITS_DIFFERENCE_TYPE __distance(_Iter first_, _Iter last_, random_ite
 
 template <typename _Iter>
 ITERATOR_TRAITS_DIFFERENCE_TYPE distance(_Iter first_, _Iter last_) {
-    typedef ITERATOR_TRAITS_CATEGORY _Category;
-    return __distance(first_, last_, _Category());
+    return __distance(first_, last_, __ITERATOR_CATEGORY(first_));
 };
 
 /* ## __advance*/
@@ -124,8 +123,7 @@ void __advance(_Iter& iter_, _Distance n_, random_iterator_tag) {
 
 template <typename _Iter, typename _Distance>
 void advance(_Iter& iter_, _Distance n_) {
-    typedef ITERATOR_TRAITS_CATEGORY _Category;
-    __advance(iter_, n_, _Category());
+    __advance(iter_, n_, __ITERATOR_CATEGORY(iter_));
 };
 
 _STL2022_NAMESPACE_END
