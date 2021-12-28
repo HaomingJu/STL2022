@@ -155,21 +155,6 @@ struct __is_integer<unsigned long long> {
 };
 
 template <>
-struct __is_integer<float> {
-    INSIDE_BASE_TYPE_TRAITS
-};
-
-template <>
-struct __is_integer<double> {
-    INSIDE_BASE_TYPE_TRAITS
-};
-
-template <>
-struct __is_integer<long double> {
-    INSIDE_BASE_TYPE_TRAITS
-};
-
-template <>
 struct __is_integer<bool> {
     INSIDE_BASE_TYPE_TRAITS
 };
