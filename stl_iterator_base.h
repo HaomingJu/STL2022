@@ -47,23 +47,23 @@ struct iterator_traits {
 };
 
 /* # 增加一些萃取函数*/
-#define ITERATOR_TRAITS_CATEGORY typename iterator_traits<_Iter>::iterator_category
-#define ITERATOR_TRAITS_VALUE_TYPE typename iterator_traits<_Iter>::value_type
-#define ITERATOR_TRAITS_DIFFERENCE_TYPE typename iterator_traits<_Iter>::difference_type
+#define ITERATOR_TRAITS_CATEGORY(_Iter) typename iterator_traits<_Iter>::iterator_category
+#define ITERATOR_TRAITS_VALUE_TYPE(_Iter) typename iterator_traits<_Iter>::value_type
+#define ITERATOR_TRAITS_DIFFERENCE_TYPE(_Iter) typename iterator_traits<_Iter>::difference_type
 
 template <typename _Iter>
-ITERATOR_TRAITS_CATEGORY __iterator_category(const _Iter&) {
-    return ITERATOR_TRAITS_CATEGORY();
+ITERATOR_TRAITS_CATEGORY(_Iter) __iterator_category(const _Iter&) {
+    return ITERATOR_TRAITS_CATEGORY(_Iter)();
 };
 
 template <typename _Iter>
-ITERATOR_TRAITS_VALUE_TYPE __value_type(const _Iter&) {
-    return ITERATOR_TRAITS_VALUE_TYPE();
+ITERATOR_TRAITS_VALUE_TYPE(_Iter) __value_type(const _Iter&) {
+    return ITERATOR_TRAITS_VALUE_TYPE(_Iter)();
 };
 
 template <typename _Iter>
-ITERATOR_TRAITS_DIFFERENCE_TYPE __distance_type(const _Iter&) {
-    return ITERATOR_TRAITS_DIFFERENCE_TYPE();
+ITERATOR_TRAITS_DIFFERENCE_TYPE(_Iter) __distance_type(const _Iter&) {
+    return ITERATOR_TRAITS_DIFFERENCE_TYPE(_Iter)();
 }
 
 /* ## 可以将_i的类型属性萃取出来, 并创建一个实例 */
@@ -76,8 +76,8 @@ ITERATOR_TRAITS_DIFFERENCE_TYPE __distance_type(const _Iter&) {
 
 /* ### 针对仅支持operator++的迭代器 */
 template <typename _Iter>
-ITERATOR_TRAITS_DIFFERENCE_TYPE __distance(_Iter first_, _Iter last_, input_iterator_tag) {
-    ITERATOR_TRAITS_DIFFERENCE_TYPE n = 0;
+ITERATOR_TRAITS_DIFFERENCE_TYPE(_Iter) __distance(_Iter first_, _Iter last_, input_iterator_tag) {
+    ITERATOR_TRAITS_DIFFERENCE_TYPE(_Iter) n = 0;
     while(first_ != last_) {
         ++first_;
         ++n;
@@ -86,12 +86,12 @@ ITERATOR_TRAITS_DIFFERENCE_TYPE __distance(_Iter first_, _Iter last_, input_iter
 };
 /* ### random_iterator_tag 支持随机加减 operator+ operator- */
 template <typename _Iter>
-ITERATOR_TRAITS_DIFFERENCE_TYPE __distance(_Iter first_, _Iter last_, random_iterator_tag) {
+ITERATOR_TRAITS_DIFFERENCE_TYPE(_Iter) __distance(_Iter first_, _Iter last_, random_iterator_tag) {
     return last_ - first_;
 };
 
 template <typename _Iter>
-ITERATOR_TRAITS_DIFFERENCE_TYPE distance(_Iter first_, _Iter last_) {
+ITERATOR_TRAITS_DIFFERENCE_TYPE(_Iter) distance(_Iter first_, _Iter last_) {
     return __distance(first_, last_, __ITERATOR_CATEGORY(first_));
 };
 
