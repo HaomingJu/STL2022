@@ -1,5 +1,5 @@
 #include <cstddef>
-#include "stl_algobase.h"       // for func: copy
+//#include "stl_algobase.h"       // for func: copy
 #include "stl_config.h"         // for cfg
 #include "stl_construct.h"      // for func: construct, destroy
 #include "stl_iterator_base.h"  // for func:__VALUE_TYPE

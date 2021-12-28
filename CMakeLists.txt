@@ -7,5 +7,4 @@ set(CMAKE_CXX_STANDARD 11)
 
 aux_source_directory(${CMAKE_SOURCE_DIR} src)
 
-add_library(${PROJECT_NAME} SHARED ${src})
-
+add_executable(${PROJECT_NAME} ${src})
