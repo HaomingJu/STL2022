@@ -96,3 +96,5 @@ template <typename _ForwardIterator> destroy(_ForwardIterator first_, _ForwardIt
 
 
 绘图工具: https://excalidraw.com/
+
+Apple gcc: https://opensource.apple.com/source/gcc3/gcc3-1175/libstdc++-v3/include/bits/
