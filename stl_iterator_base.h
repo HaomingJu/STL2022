@@ -1,5 +1,6 @@
 #pragma once
 #include "stl_config.h"  // for namespace macro
+#include <cstddef> // for ptrdiff_t
 
 _STL2022_NAMESPACE_HEAD
 
@@ -11,7 +12,7 @@ struct random_iterator_tag : public bidirectional_iterator_tag {};   // 随机(�
 struct output_iterator_tag {};                                       // 输出迭代器
 
 /* # 基础模板迭代器 */
-template <typename _Category, typename _Tp, typename _Distance, typename _Pointer = _Tp*, typename _Reference = _Tp&>
+template <typename _Category, typename _Tp, typename _Distance = ptrdiff_t, typename _Pointer = _Tp*, typename _Reference = _Tp&>
 struct iterator {
     typedef _Category  iterator_category;
     typedef _Tp        value_type;
@@ -21,17 +22,17 @@ struct iterator {
 };
 
 /* # 对基础模板迭代器的特化 [Usage]: input_itertor<_Tp, _Distance>; */
-template <typename _Tp, typename _Distance>
-using input_itertor = iterator<input_iterator_tag, _Tp, _Distance>;
+template <typename _Tp>
+using input_itertor = iterator<input_iterator_tag, _Tp>;
 
-template <typename _Tp, typename _Distance>
-using forward_iterator = iterator<forward_iterator_tag, _Tp, _Distance>;
+template <typename _Tp>
+using forward_iterator = iterator<forward_iterator_tag, _Tp>;
 
-template <typename _Tp, typename _Distance>
-using bidirectional_iterator = iterator<bidirectional_iterator_tag, _Tp, _Distance>;
+template <typename _Tp>
+using bidirectional_iterator = iterator<bidirectional_iterator_tag, _Tp>;
 
-template <typename _Tp, typename _Distance>
-using random_iterator = iterator<random_iterator_tag, _Tp, _Distance>;
+template <typename _Tp>
+using random_iterator = iterator<random_iterator_tag, _Tp>;
 
 /* ## output_iterator_tag类型的迭代器很特殊 TODO: 为啥全部为void */
 using output_iterator = iterator<output_iterator_tag, void, void, void, void>;
