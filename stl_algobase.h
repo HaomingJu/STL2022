@@ -107,11 +107,6 @@ inline _OutputIter __copy_aux2(_InputIter first_, _InputIter last_, _OutputIter 
 }
 
 template <typename T>
-inline T* __copy_aux2(T* first_, T* last_, T* result_, __true_type) {
-    return __copy_trivial(first_, last_, result_);
-}
-
-template <typename T>
 inline T* __copy_aux2(const T* first_, const T* last_, T* result_, __true_type) {
     return __copy_trivial(first_, last_, result_);
 }
@@ -148,14 +143,10 @@ inline _RI2 __copy_backward(_RI1 first_, _RI1 last_, _RI2 result_, random_iterat
     return result_;
 }
 
-template <typename _BI1, typename _BI2, typename _T>
-inline _BI2 __copy_backward_aux(_BI1 first_, _BI1 last_, _BI2 result_, _T) {
-    typedef typename __type_traits<_T>::has_trivial_assignment_operator isTrivial;
-}
-
 template <typename _BI1, typename _BI2>
 inline _BI2 copy_backward(_BI1 first_, _BI1 last_, _BI2 result_) {
-    __copy_backward_aux(first_, last_, result_, __VALUE_TYPE(first_));
+    typedef ITERATOR_TRAITS_CATEGORY(_BI1) _Category;
+    __copy_backward(first_, last_, result_, _Category());
 }
 
 // TODO: 完成copy_backward的剩余部分
