@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include <cstring>
 
 #include "stl_config.h"
@@ -144,12 +145,34 @@ inline _RI2 __copy_backward(_RI1 first_, _RI1 last_, _RI2 result_, random_iterat
 }
 
 template <typename _BI1, typename _BI2>
-inline _BI2 copy_backward(_BI1 first_, _BI1 last_, _BI2 result_) {
+inline _BI2 __copy_backward_aux2(_BI1 first_, _BI1 last_, _BI2 result_, __true_type) {
     typedef ITERATOR_TRAITS_CATEGORY(_BI1) _Category;
     __copy_backward(first_, last_, result_, _Category());
 }
 
-// TODO: 完成copy_backward的剩余部分
+template <typename _BI1, typename _BI2>
+inline _BI2 __copy_backward_aux2(_BI1 first_, _BI1 last_, _BI2 result_, __false_type) {
+    typedef ITERATOR_TRAITS_CATEGORY(_BI1) _Category;
+    __copy_backward(first_, last_, result_, _Category());
+}
+
+template <typename _T>
+inline _T* __copy_backward_aux2(const _T* first_, const _T* last_, _T* result_, __true_type) {
+    result_ = result_ - (last_ - first_);
+    __copy_trivial(first_, last_, result_);  // To call memmove
+}
+
+template <typename _BI1, typename _BI2, typename _T>
+inline _BI2 __copy_backward_aux(_BI1 first_, _BI1 last_, _BI2 result_, _T) {
+    typedef typename __type_traits<_T>::has_trivial_assignment_operator _Trivial;
+    __copy_backward_aux(first_, last_, result_, _Trivial());
+}
+
+template <typename _BI1, typename _BI2>
+inline _BI2 copy_backward(_BI1 first_, _BI1 last_, _BI2 result_) {
+    typedef ITERATOR_TRAITS_VALUE_TYPE(_BI1) _ValueType;
+    __copy_backward_aux(first_, last_, result_, _ValueType());
+}
 
 /* copy_n */
 
