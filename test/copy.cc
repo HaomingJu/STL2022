@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstdio>
 
 #include "../stl_algobase.h"
 
@@ -8,11 +9,20 @@ void init(int* data, int sz) {
     }
 }
 
+void show(int* data, int sz) {
+    for(int i = 0; i < sz; ++i) {
+        printf("%d\t", data[i]);
+    }
+    printf("\n");
+
+}
+
 int main(int argc, const char* argv[]) {
     int data[10];
 
+    // 测试裸指针
     init(data, 10);
-    STL_NS::__copy_trivial(&(data[0]), &(data[3]), &(data[5]));
+    STL_NS::copy(&(data[0]), &(data[3]), &(data[5]));
     assert(data[0] == 0);
     assert(data[1] == 1);
     assert(data[2] == 2);
@@ -24,8 +34,9 @@ int main(int argc, const char* argv[]) {
     assert(data[8] == 8);
     assert(data[9] == 9);
 
+    /* 该测试用例通过必须要有 template <typename T> inline T* __copy_aux2(T* first_, T* last_, T* result_, __true_type) */
     init(data, 10);
-    STL_NS::__copy_trivial(&(data[0]), &(data[6]), &(data[3]));
+    STL_NS::copy(&(data[0]), &(data[6]), &(data[3]));
     assert(data[0] == 0);
     assert(data[1] == 1);
     assert(data[2] == 2);
@@ -37,5 +48,7 @@ int main(int argc, const char* argv[]) {
     assert(data[8] == 5);
     assert(data[9] == 9);
 
+
+    //TODO: 测试迭代器
     return 0;
 }

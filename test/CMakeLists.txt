@@ -10,8 +10,8 @@ endfunction(AddOneTest test_name)
 ###########################################################
 
 
-AddOneTest(__copy_trivial)
 AddOneTest(compile)
+AddOneTest(copy)
 AddOneTest(copy_backward)
 AddOneTest(iter_swap)
 AddOneTest(max)

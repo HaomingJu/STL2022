@@ -112,6 +112,11 @@ inline T* __copy_aux2(const T* first_, const T* last_, T* result_, __true_type) 
     return __copy_trivial(first_, last_, result_);
 }
 
+template <typename T>
+inline T* __copy_aux2(T* first_, T* last_, T* result_, __true_type) {
+    return __copy_trivial(first_, last_, result_);
+}
+
 /* 该函数仅仅为了使用类型推断出迭代器或指针所指的类型 */
 template <typename _InputIter, typename _OutputIter, typename _T>
 inline _OutputIter __copy_aux(_InputIter first_, _InputIter last_, _OutputIter result_, _T) {

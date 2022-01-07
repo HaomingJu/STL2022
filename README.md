@@ -9,8 +9,6 @@
 
 
 
-两个比较重要的萃取: 迭代器萃取(iterator_traits) | 类型萃取(__type_traits)
-
 功能性头文件:
 
 ```
@@ -78,11 +76,6 @@ typedef malloc_alloc alloc;
 typedef malloc_alloc single_client_alloc;
 ```
 
-### type_traits.h
-
-包含两个萃取函数`__type_traits`和`__is_integer`
-
-对于内置类型, 则进行偏特化进行赋值. 其中表征真假的类型为`struct __true_type`和`struct __false_type`
 
 
 ### stl_construct.h
@@ -95,6 +88,3 @@ template <typename _ForwardIterator> destroy(_ForwardIterator first_, _ForwardIt
 ```
 
 
-绘图工具: https://excalidraw.com/
-
-Apple gcc: https://opensource.apple.com/source/gcc3/gcc3-1175/libstdc++-v3/include/bits/
