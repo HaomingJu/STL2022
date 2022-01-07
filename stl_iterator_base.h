@@ -47,6 +47,25 @@ struct iterator_traits {
     typedef typename _Iter::reference_type    reference_type;
 };
 
+/* ## 对裸指针的萃取 */
+template <typename _T>
+struct iterator_traits<_T*> {
+    typedef random_iterator_tag     iterator_category;
+    typedef _T                      value_type;
+    typedef ptrdiff_t               difference_type;
+    typedef _T*                     pointer_type;
+    typedef _T&                     reference_type;
+};
+
+template <typename _T>
+struct iterator_traits<const _T*> {
+    typedef random_iterator_tag     iterator_category;
+    typedef _T                      value_type;
+    typedef ptrdiff_t               difference_type;
+    typedef const _T*               pointer_type;
+    typedef const _T&               reference_type;
+};
+
 /* # 增加一些萃取函数*/
 #define ITERATOR_TRAITS_CATEGORY(_Iter) typename iterator_traits<_Iter>::iterator_category
 #define ITERATOR_TRAITS_VALUE_TYPE(_Iter) typename iterator_traits<_Iter>::value_type
