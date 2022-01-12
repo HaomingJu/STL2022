@@ -88,3 +88,6 @@ template <typename _ForwardIterator> destroy(_ForwardIterator first_, _ForwardIt
 ```
 
 
+
+enable_if
+C++17之后，更推荐的用法是使用if constexpr，它不再需要将不同的特化拆分到不同的函数里，可读性更佳。
